@@ -1,2 +1,1 @@
-    // b1.displayInfo();
-    // b2.displayInfo();
+l1.displayRecords();
