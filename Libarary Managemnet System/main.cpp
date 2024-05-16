@@ -165,22 +165,13 @@ class Library{
         cur_book = find(books.begin(), 
                  books.end(), b);
 
-        vector<Member>::iterator cur_mem;
 
-        cur_mem=find(members.begin(),members.end(),m);
+        for(auto& pair : records) {
+        auto& vec = pair.second;
+        vec.erase(std::remove(vec.begin(), vec.end(), b), vec.end());
+        cur_book->isIssued=false;
 
-                    for(auto& pair2 : this->records) {
-
-                    if(pair2.first==m){
-                        auto& vec = pair2.second;
-                        vec.erase(cur_book);
-                        cout<<"record deleted successfully"<<endl;
-                        break;
-                    }
-                       
-                }
-
-
+    }
 
     }
 
@@ -280,9 +271,9 @@ l1.returnBook(m1,b3);
 
 l1.displayRecords();
 
-l1.issueBook(m1,b3); // bug (isIssued remains true even after book is returned)
+l1.issueBook(m2,b3); // bug (isIssued remains true even after book is returned)
 
-
+l1.displayRecords();
     
     
     return 1;
