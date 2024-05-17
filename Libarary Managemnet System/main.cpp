@@ -189,23 +189,14 @@ class Library{
 
         void displayRecords(){
 
+                for(auto& pair : this->records){
+                    cout<<"Member name : "<<pair.first.name<<" , Books owned : ";
+                    
+                    for(auto & bk: pair.second){
+                        cout<<bk.title<<"  ";
+                    }
+                    cout<<endl;
 
-                    map<Member, vector<Book>>::iterator pair = records.begin();
-                
-                    while (pair != records.end()) {
-                
-                            cout<<"Member name : "<<pair->first.name<<" , Books owned : ";
-                            vector<Book>::iterator pair1=pair->second.begin();
-
-                            while(pair1!= pair->second.end()){
-
-                                    cout<<pair1->title<<"  ";
-                                    pair1++;
-
-                                }
-
-                            cout <<endl;
-                            pair++;
                 }
             }
 
