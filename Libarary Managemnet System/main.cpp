@@ -119,23 +119,14 @@ class Library{
 
         void removeBook(Book b){   
 
-                vector<Book>::iterator cur_book;
-                cur_book=find(books.begin(),books.end(),b);
+                auto cur_book=find(this->books.begin(),this->books.end(),b);
 
-                auto it = this->books.begin(); 
-                
-                while (it != this->books.end()) {
-
-                        if (it == cur_book) {
-
-                                books.erase(it);
-                                cout<<"Book removed from the Library"<<endl;
-                                break;
-                            
-                        }else 
-                                ++it; 
-                            
-                    } 
+                if(cur_book!=books.end()){
+                    books.erase(cur_book);
+                    cout<<"Book successfully removed from this library"<<endl;
+                }else{
+                    cout<<"This book was not found in this libarary"<<endl;
+                }
 
             }
 
@@ -169,18 +160,25 @@ class Library{
         }
 
         void returnBook(Member m, Book b){
+            
+            
+            auto cur_mem=this->records.find(m);
 
-            vector<Book>::iterator cur_book;
-            cur_book = find(books.begin(),books.end(), b);
+            if(cur_mem!=this->records.end()){
+                auto& cur_book=cur_mem->second;
+                auto it=find(cur_book.begin(),cur_book.end(),b);
+                    if(it!=cur_book.end()){
+                        cout<<"Book Returned"<<endl;
+                        auto bk=find(this->books.begin(),this->books.end(),*it);
+                        this->records[m].erase(it);
+                        bk->isIssued=false;
+                    }else{
+                        cout<<"This book was never owned by this member"<<endl;
+                    }
+            }else{
+                cout<<"You dont own any of the books from this library"<<endl;
+            }
 
-
-            for(auto& pair : records) {
-                    auto& vec = pair.second;
-                    vec.erase(std::remove(vec.begin(), vec.end(), b), vec.end());
-                    cout<<"Book Returned Successfully"<<endl;
-                    cur_book->isIssued=false;
-
-                }
 
             }
 
@@ -259,18 +257,18 @@ l1.addMember(m2);
 
 // l1.displayMembers();
 
-l1.issueBook(m1,b2);
-l1.issueBook(m1,b1);
-l1.issueBook(m1,b3);
-l1.issueBook(m2,b6);
-l1.issueBook(m2,b5);
+// l1.issueBook(m1,b2);
+// l1.issueBook(m1,b1);
+// l1.issueBook(m1,b3);
+// l1.issueBook(m2,b6);
+// l1.issueBook(m2,b5);
 
-//l1.displayRecords();
-
-// l1.removeBook(b1);
-// l1.removeBook(b2);
-
+// l1.displayRecords();
 // l1.displayBooks();
+// l1.removeBook(b6);
+ //l1.removeBook(b2);
+
+//  l1.displayBooks();
 
 // l1.returnBook(m1,b3);
 
@@ -297,16 +295,16 @@ l2.issueBook(m4,b1);
 l2.issueBook(m4,b3);
 l2.issueBook(m4,b6);
 l2.issueBook(m4,b5);
-    
+    cout<<"********************"<<endl;
 l2.issueBook(m3,b1);
 l2.displayRecords();
 cout<<"wait"<<endl;
 l2.returnBook(m3,b1);
-l2.returnBook(m4,b1);
+l2.returnBook(m4,b7);
+l2.returnBook(m4,b2);
 cout<<"wait"<<endl;
 l2.issueBook(m3,b2);
 l2.displayRecords();
 
-    //bug even if x member doesnt own y book , it is returning it 
     return 1;
 }
